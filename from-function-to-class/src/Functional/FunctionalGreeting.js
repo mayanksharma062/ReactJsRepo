@@ -16,7 +16,7 @@ function useLocalStorage(key, defaultValue = ''){
 
 function FunctionalGreeting() {
 
-    const [name, setName] = useLocalStorage('name')
+    const [name, setName] = useLocalStorage('name');
     const handleName = (e)=>{
         setName(e.target.value);
     }

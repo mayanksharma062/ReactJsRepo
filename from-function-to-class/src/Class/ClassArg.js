@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
 
-export class ClassArg extends Component {
+class ClassArg extends Component {
     constructor(props){
         super(props);
-        this.state = {name: localStorage.getItem('name') || ""}
+        this.state = {
+            name: localStorage.getItem('name') || ""
+        }
+        this.handleName = this.handleName.bind(this);
     }
-    handleName = (e)=>{
+    handleName(e){
         this.setState({name: e.target.value})
     }
-
     componentDidUpdate(){
         localStorage.setItem('name', this.state.name);
     }
-
     render() {
         return (
             <div>
