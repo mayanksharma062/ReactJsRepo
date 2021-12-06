@@ -7,31 +7,37 @@ import FirstStep from './components/FirstStep';
 import SecondStep from './components/SecondStep.js';
 import ThirdStep from './components/ThirdStep.js';
 import StructuredForm from './components/StructuredForm.js';
+import StepsForm from './components/StepsForm'
 
 function App() {
   const steps = [
     {
       step: 1,
-      title: "Step 1",
+      title: "Personal Details",
       content: <FirstStep/>
     },
     {
       step: 2,
-      title: "step 2",
+      title: "Address",
       content: <SecondStep/>
     },
     {
       step: 3,
-      title: "step 3",
+      title: "Health And Fitness Regime",
       content: <ThirdStep/>
     }
   ]
+
+  function onFinish(e){
+    console.log("Hogaya na", e)
+  }
   return (
     <div>
-      <AllFormInOneStep/>
-      {/* <Form name="basic" labelCol={{ span: 10 }} initialValues={{ remember: true, }} autoComplete="off">
+      {/* <AllFormInOneStep/> */}
+      {/* <StepsForm/> */}
+      <Form name="basic" labelCol={{ span: 5 }} wrapperCol={{ span: 10 }} initialValues={{ remember: true, }} onFinish={onFinish}autoComplete="off">
         <StructuredForm steps={steps}/>
-  </Form>*/}
+  </Form>
     </div>
   )
 }

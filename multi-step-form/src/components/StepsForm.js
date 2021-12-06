@@ -40,10 +40,6 @@ function FirstStep() {
     // const [stepForm] = Form.useForm()
     function onFinishForm(e) {
         console.log(e)
-        console.log("object")
-    }
-    function Gandu(){
-        console.log("SHit")
     }
 
     // function checkKaro(){
@@ -53,9 +49,9 @@ function FirstStep() {
     // const papudebounce = debounce(checkKaro, 2000);
     return (
         <div className="container">
-            <div className="container my-3">
+            {/* <div className="container my-3">
                 {firstStep ? <>
-                    <Steps current={0} status="error">
+                    <Steps current={1} status="error">
                         <Step title="In Process" description="This is a description" />
                         <Step title="Waiting" description="This is a description" />
                         <Step title="Waiting" description="This is a description" />
@@ -63,7 +59,7 @@ function FirstStep() {
                 </> : null}
                 {secondStep ?
                     <>
-                        <Steps current={1} status="error">
+                        <Steps current={2} status="error">
                             <Step title="Finished" description="This is a description" />
                             <Step title="In Process" description="This is a description" />
                             <Step title="Waiting" description="This is a description" />
@@ -71,28 +67,28 @@ function FirstStep() {
                     </> : null}
                 {thirdStep ?
                     <>
-                        <Steps current={2} status="error">
+                        <Steps current={3} status="error">
                             <Step title="Finished" description="This is a description" />
                             <Step title="Finished" description="This is a description" />
                             <Step title="In Process" description="This is a description" />
                         </Steps>
                     </> : null}
-            </div>
+            </div> */}
             {/* <Step title="In Process" description="This is a description" /> */}
             {/* <Steps current={1} status="error"> */}
-            <Form name="basic" labelCol={{ span: 10 }} initialValues={{ remember: true, }} autoComplete="off" OnFinish={onFinishForm} onFinishFailed={Gandu}>
-                {firstStep ?
-                    <>
+            <Form name="basic" labelCol={{ span: 10 }} initialValues={{ remember: true, }} autoComplete="off" OnFinish={onFinishForm}>
+            <Steps initial={0} current={0}>
+            <Step title="In Process" description="First Step" >
                         {/* <Form name="basic" labelCol={{ span: 10 }} initialValues={{ remember: true, }} autoComplete="off" onFinish={onFinishFirst}> */}
                         <h1>Personal Details</h1>
                         <Form.Item label="Creation Date And Time">
                             <DatePicker defaultValue={moment()} format='YYYY-MM-DD' />
                             <TimePicker defaultValue={moment()} format='HH:mm:ss' />
                         </Form.Item>
-                        <Form.Item label="First Name" wrapperCol={{ span: 10 }} name="First" rules={[{ required: true, message: 'Please input your First Name!', },]}>
+                        <Form.Item label="First Name" wrapperCol={{ span: 10 }} rules={[{ required: true, message: 'Please input your First Name!', },]}>
                             <Input />
                         </Form.Item>
-                        <Form.Item label="Last Name" wrapperCol={{ span: 10 }}name="Last" rules={[{ required: true, message: 'Please input your Last Name!', },]}>
+                        <Form.Item label="Last Name" wrapperCol={{ span: 10 }} rules={[{ required: true, message: 'Please input your Last Name!', },]}>
                             <Input />
                         </Form.Item>
                         <Form.Item name="email" wrapperCol={{ span: 10 }} label="Email" rules={[{ required: true, type: 'email', },]}>
@@ -122,13 +118,10 @@ function FirstStep() {
                                 Next
                             </Button>
                         </Form.Item>
-                        {/* </Form> */}
-                    </>
-                    : null}
-                {secondStep ?
-                    <>
+                        </Step>
                         {/* <Step title="Finished" description="This is a description" /> */}
                         {/* <Form labelCol={{ span: 8 }} onFinish={onFinishSecond}> */}
+                        <Step title="In Process" description="Second Step" >
                         <h3>Address</h3>
                         <Form.Item label="Address Line 1" wrapperCol={{ span: 6, }} name="Address Line 1" rules={[{ required: true, message: 'Please input your Address!', },]}>
                             <Input />
@@ -153,13 +146,9 @@ function FirstStep() {
                                 Next
                             </Button>
                         </Form.Item>
-                        {/* </Form> */}
-                    </> : null
-                }
-                {thirdStep ?
-                    <>
-
+                        </Step>
                         {/* <Form onFinish={onFinishThird}> */}
+                        <Step title="In Process" description="Third Step" >
                         <h3>Health and Fitness Regime:</h3>
                         <Form.Item label="Alcohol Use" wrapperCol={{ span: 6, }} name="alcohol use" rules={[{ required: "true" }]} >
                             <Radio.Group>
@@ -176,31 +165,29 @@ function FirstStep() {
                             </Radio.Group>
                         </Form.Item>
                         <Form.Item name="exercise" label="Exercise">
-                            <Checkbox value="Running"> Running/Jogging </Checkbox>
-                            <Checkbox value="Cardio"> Cardio </Checkbox>
-                            <Checkbox value="Strngth"> Strength Training </Checkbox>
-                            <Checkbox value="None"> Idle or No Exercise </Checkbox>
+                            <Checkbox> Running/Jogging </Checkbox>
+                            <Checkbox> Cardio </Checkbox>
+                            <Checkbox> Strength Training </Checkbox>
+                            <Checkbox> Idle or No Exercise </Checkbox>
                         </Form.Item>
                         <Form.Item wrapperCol={{ span: 10 }} labelCol={{ span: 8 }}>
                             <Button type="primary" onClick={prevThird} htmlType="button">
                                 Prev
                             </Button>
-                            <Button className="mx-5" type="primary" htmlType="submit">
+                            {/* <Button className="mx-5" type="primary" htmlType="button">
                                 Submit
-                            </Button>
-                            
+                            </Button> */}
                         </Form.Item>
                         {/* </Form> */}
-                    </> : null}
-                    {/* <Form.Item>
+                    <Form.Item>
                         <Button type="primary" htmlType="submit">
                             Submit
                         </Button>
-                    </Form.Item> */}
+                    </Form.Item>
+                    </Step>
+                    </Steps>
 
             </Form>
-            {/* </Steps> */}
-            {/* {submitButton? {wholeData} :null} */}
         </div>
     )
 }

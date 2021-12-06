@@ -1,13 +1,154 @@
 import React, { Component } from 'react'
 // import { Link } from "react-router-dom";
 import axios from 'axios'
+import "antd/dist/antd.css"
+import { Table, Input } from 'antd';
 
 export class Users extends Component {
     constructor() {
         super();
         this.state = {
-            users: [], show: false, error: null, isLoaded: false, showAddButton: true, username: "", name:"", email:"",
+            users: [], searchValue: "", show: false, error: null, isLoaded: false, showAddButton: true, username: "", name:"", email:"",
             address: { street: "", suite: "", city: "", zipcode: "", geo: { lat: "", long: "" } }, phone: "", website: "", company: { companyname: "", catchphrase: "", bs: "" }, editShow: false, updatedList: []
+        }
+    }
+
+    columns = [
+        {
+            title: "ID",
+            key: 'id',
+            dataIndex: 'id'
+        },
+        {
+            title: "Name",
+            key: 'id',
+            dataIndex: 'name'
+        },
+        {
+            title: "userName",
+            key: 'id',
+            dataIndex: 'username'
+        },
+        {
+            title: "Email",
+            key: 'id',
+            dataIndex: 'email'
+        },
+        {
+            title: "Street",
+            key: 'id',
+            dataIndex: ['address', 'street']
+        },
+        {
+            title: "Suite",
+            key: 'id',
+            dataIndex: ['address', 'suite']
+        },
+        {
+            title: "City",
+            key: 'id',
+            dataIndex: ['address', 'city']
+        },
+        {
+            title: "Zipcode",
+            key: 'id',
+            dataIndex: ['address', 'zipcode']
+        },
+        {
+            title: "Lattitude",
+            key: 'id',
+            dataIndex: ['address', 'geo', 'lat']
+        },
+        {
+            title: "Longitude",
+            key: 'id',
+            dataIndex: ['address', 'geo', 'lng']
+        },
+        {
+            title: "Phone",
+            key: 'id',
+            dataIndex: 'phone'
+        },
+        {
+            title: "Website",
+            key: 'id',
+            dataIndex: 'website'
+        },
+        {
+            title: "Company Name",
+            key: 'id',
+            dataIndex: ['company', 'name']
+        },
+        {
+            title: "Catchphrase",
+            key: 'id',
+            dataIndex: ['company', 'catchPhrase']
+        },
+        {
+            title: "Bs",
+            key: 'id',
+            dataIndex: ['company', 'bs']
+        },
+        {
+            title: "Buttons",
+            key: 'id',
+            render: (users)=>{return ( <button onClick={()=>this.deleteHandler(users)}>Edit</button>)}
+        },
+        {
+            title: "Buttons",
+            key: 'id',
+            render: (users)=>{return ( <button onClick={()=>this.deleteHandler(users)}>Delete</button>)}
+        },
+    ]
+
+    
+    handleDatasource = (users)=>{
+        let totalCuratedUsers = users.filter((val)=> val.name.toLowerCase().includes(this.state.searchValue));
+        console.log("TCU", totalCuratedUsers);
+        if(totalCuratedUsers.length !== 0){
+            console.log(users)
+            return this.setState({users: totalCuratedUsers})
+        }
+        else if(this.state.searchValue === "" || totalCuratedUsers.length === 0){
+            console.log("Not Found");
+            fetch('http://localhost:3005/users').then(res => {
+                // console.log(res);
+                return res.json()
+            }).then((result) => {
+                this.setState({ isLoaded: true, users: result })
+                // console.log(this.state.users);
+                // console.log(result);
+            }, (error) => {
+                this.setState({
+                    isLoaded: true,
+                    error
+                });
+            }) 
+        }
+    }
+
+    searchHandler = (e)=>{
+        let totalCuratedUsers = this.state.users.filter((val)=> val.name.toLowerCase().includes(e.target.value));
+        console.log("TCU", totalCuratedUsers);
+        if(totalCuratedUsers.length !== 0){
+            console.log(this.state.users)
+            return this.setState({users: totalCuratedUsers})
+        }
+        else if(e.target.value === "" || totalCuratedUsers.length === 0){
+            console.log("Not Found");
+            fetch('http://localhost:3005/users').then(res => {
+                // console.log(res);
+                return res.json()
+            }).then((result) => {
+                this.setState({ isLoaded: true, users: result })
+                // console.log(this.state.users);
+                // console.log(result);
+            }, (error) => {
+                this.setState({
+                    isLoaded: true,
+                    error
+                });
+            }) 
         }
     }
     // componentDidUpdate() {
@@ -73,7 +214,7 @@ export class Users extends Component {
         axios.post('http://localhost:3005/users', { name: this.state.name, email: this.state.email, username: this.state.username, address: { street: this.state.address.street, suite: this.state.address.suite, city: this.state.address.city, zipcode: this.state.address.zipcode, geo: { lat: this.state.address.geo.lat, long: this.state.address.geo.long } }, phone: this.state.phone, website: this.state.website, company: { companyname: this.state.company.companyname, catchphrase: this.state.company.catchphrase, bs: this.state.company.bs } }).then(() => {
             this.getdata();
         });
-        this.setState({ name: "", email: "", show: false })
+        this.setState({ name: "", email: "", show: false, showAddButton: true })
     }
         else{
             alert("Galat Bhai")
@@ -228,24 +369,28 @@ export class Users extends Component {
                             <button type="submit">Update Done</button>
                             <button type="button" onClick={() => this.setState({ editShow: false })}>Cancel</button>
                         </form> : null}
-
-                    {users.map(user => {
-                        return (
-                            <li key={user.id} style={{ display: "flex" }} className="my-3">
-                                <ul style={{ padding: "none", margin: "none" }}> Name Of The User: </ul>  {user.name}
-                                <ul>Email Id Of the User:</ul>{user.email}
-                                {/* <Link to="/edituser"> */}
-                                <button onClick={() => this.editHandler(user)} className="ms-2 me-2">Edit</button>
-                                {/* </Link> */}
-                                <button onClick={() => this.deleteHandler(user)}>Delete</button>
-                            </li>
-
-                        )
-                    })}
-                </div>
+                        <Input.Search placeholder="Enter What You Want To Search Here" onChange={(e)=>this.searchHandler(e)} enterbutton />
+                        <Table columns={this.columns} pagination={{pageSize: '5', showSizeChanger: true}} dataSource={users}/>
+                        </div>
+                        
             )
         }
     }
 }
 
 export default Users
+
+
+                    // {users.map(user => {
+                    //     return (
+                    //         <li key={user.id} style={{ display: "flex" }} className="my-3">
+                    //             <ul style={{ padding: "none", margin: "none" }}> Name Of The User: </ul>  {user.name}
+                    //             <ul>Email Id Of the User:</ul>{user.email}
+                    //             {/* <Link to="/edituser"> */}
+                    //             <button onClick={() => this.editHandler(user)} className="ms-2 me-2">Edit</button>
+                    //             {/* </Link> */}
+                    //             <button onClick={() => this.deleteHandler(user)}>Delete</button>
+                    //         </li>
+
+                    //     )
+                    // })}
