@@ -1,5 +1,8 @@
 import React from 'react'
 import 'antd/dist/antd.css';
+import debounce from 'lodash.debounce'
+import moment from 'moment'
+import 'moment/locale/zh-cn';
 import { Form, Input, Checkbox, DatePicker, Radio, InputNumber } from 'antd';
 
 function FirstStep() {
@@ -7,15 +10,15 @@ function FirstStep() {
         <>
                 <h1>Personal Details</h1>
                     <Form.Item label="Creation Date And Time">
-                        <DatePicker />
+                        <DatePicker defaultValue={moment()} format="YYYY-MM-DD"/>
                     </Form.Item>
-                    <Form.Item label="First Name" wrapperCol={{ span: 10 }} name="firstname" rules={[{ required: true, message: 'Please input your First Name!', },]}>
+                    <Form.Item label="First Name" name="firstname" rules={[{ required: true, message: 'Please input your First Name!', },]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item label="Last Name" wrapperCol={{ span: 10 }} name="lastname" rules={[{ required: true, message: 'Please input your Last Name!', },]}>
+                    <Form.Item label="Last Name" name="lastname" rules={[{ required: true, message: 'Please input your Last Name!', },]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item name="email" wrapperCol={{ span: 10 }} label="Email" rules={[{ required: 'true', type: 'email', },]}>
+                    <Form.Item name="email"  label="Email" rules={[{ required: 'true', type: 'email', },]}>
                         <Input />
                     </Form.Item>
                     <Form.Item label="Gender" name="Gender" rules={[{ required: "true" }]}>

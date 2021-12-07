@@ -15,6 +15,10 @@ function StructuredForm(props) {
       const prevStep = current - 1;
       setCurrent(prevStep);
     }
+    const onChangeCurrent = cur => {
+      console.log('onChange:', current);
+      setCurrent(cur);
+    };
     return (
     // <>
     //     <Steps current={activeStep} style={{ width: 400 }}>
@@ -50,7 +54,7 @@ function StructuredForm(props) {
     //   </div>
     // </>
     <>
-    <Steps current={current}>
+    <Steps current={current} onChange={onChangeCurrent}>
       {props.steps.map(item => (
         <Step key={item.title} title={item.title} />
       ))}

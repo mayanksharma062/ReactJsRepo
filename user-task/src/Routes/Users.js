@@ -8,7 +8,7 @@ export class Users extends Component {
     constructor() {
         super();
         this.state = {
-            users: [], searchValue: "", show: false, error: null, isLoaded: false, showAddButton: true, username: "", name:"", email:"",
+            users: [], totalCuratedUsers: [], searchValue: "", show: false, error: null, isLoaded: false, showAddButton: true, username: "", name:"", email:"",
             address: { street: "", suite: "", city: "", zipcode: "", geo: { lat: "", long: "" } }, phone: "", website: "", company: { companyname: "", catchphrase: "", bs: "" }, editShow: false, updatedList: []
         }
     }
@@ -107,7 +107,8 @@ export class Users extends Component {
         console.log("TCU", totalCuratedUsers);
         if(totalCuratedUsers.length !== 0){
             console.log(users)
-            return this.setState({users: totalCuratedUsers})
+            // return this.setState({users: totalCuratedUsers})
+            
         }
         else if(this.state.searchValue === "" || totalCuratedUsers.length === 0){
             console.log("Not Found");
@@ -126,15 +127,19 @@ export class Users extends Component {
             }) 
         }
     }
+    
 
     searchHandler = (e)=>{
-        let totalCuratedUsers = this.state.users.filter((val)=> val.name.toLowerCase().includes(e.target.value));
+        let totalCuratedUsers = this.state.users.filter((val)=> val.name.toLowerCase().includes(e.target.value.trim().toLowerCase()));
         console.log("TCU", totalCuratedUsers);
         if(totalCuratedUsers.length !== 0){
             console.log(this.state.users)
             return this.setState({users: totalCuratedUsers})
+            // this.setState({dikhau: false});
+            // return (<Table columns={this.columns} pagination={{pageSize: '5', showSizeChanger: true}} dataSource={totalCuratedUsers}/>)
         }
-        else if(e.target.value === "" || totalCuratedUsers.length === 0){
+        else if(this.state.users === totalCuratedUsers || totalCuratedUsers.length === 0){
+            
             console.log("Not Found");
             fetch('http://localhost:3005/users').then(res => {
                 // console.log(res);

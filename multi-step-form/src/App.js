@@ -8,6 +8,7 @@ import SecondStep from './components/SecondStep.js';
 import ThirdStep from './components/ThirdStep.js';
 import StructuredForm from './components/StructuredForm.js';
 import StepsForm from './components/StepsForm'
+import MultiStep from './components/MultiStep.js';
 
 function App() {
   const steps = [
@@ -33,11 +34,12 @@ function App() {
   }
   return (
     <div>
-      {/* <AllFormInOneStep/> */}
+      <AllFormInOneStep steps={steps}/>
+      {/* <MultiStep/> */}
       {/* <StepsForm/> */}
-      <Form name="basic" labelCol={{ span: 5 }} wrapperCol={{ span: 10 }} initialValues={{ remember: true, }} onFinish={onFinish}autoComplete="off">
-        <StructuredForm steps={steps}/>
-  </Form>
+      {/* <Form name="basic" labelCol={{ span: 5 }} wrapperCol={{ span: 10 }} initialValues={{ remember: true, }} onFinish={onFinish}autoComplete="off"> */}
+        {/* <StructuredForm steps={steps}/> */}
+  {/* </Form> */}
     </div>
   )
 }
