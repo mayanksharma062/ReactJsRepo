@@ -8,7 +8,7 @@ export class Users extends Component {
     constructor() {
         super();
         this.state = {
-            users: [], totalCuratedUsers: [], searchValue: "", show: false, error: null, isLoaded: false, showAddButton: true, username: "", name:"", email:"",
+            users: [], totalCuratedUsers: [], searchValue: "", show: false, error: null, isLoaded: false, showAddButton: true, username: "", name: "", email: "",
             address: { street: "", suite: "", city: "", zipcode: "", geo: { lat: "", long: "" } }, phone: "", website: "", company: { companyname: "", catchphrase: "", bs: "" }, editShow: false, updatedList: []
         }
     }
@@ -22,17 +22,20 @@ export class Users extends Component {
         {
             title: "Name",
             key: 'id',
-            dataIndex: 'name'
+            dataIndex: 'name',
+            sorter: (a, b) => a.name.length - b.name.length
         },
         {
             title: "userName",
             key: 'id',
-            dataIndex: 'username'
+            dataIndex: 'username',
+            sorter: (a, b) => a.username.length - b.username.length
         },
         {
             title: "Email",
             key: 'id',
-            dataIndex: 'email'
+            dataIndex: 'email',
+            sorter: (a, b) => a.email.length - b.email.length
         },
         {
             title: "Street",
@@ -92,25 +95,25 @@ export class Users extends Component {
         {
             title: "Buttons",
             key: 'id',
-            render: (users)=>{return ( <button onClick={()=>this.deleteHandler(users)}>Edit</button>)}
+            render: (users) => { return (<button onClick={() => this.deleteHandler(users)}>Edit</button>) }
         },
         {
             title: "Buttons",
             key: 'id',
-            render: (users)=>{return ( <button onClick={()=>this.deleteHandler(users)}>Delete</button>)}
+            render: (users) => { return (<button onClick={() => this.deleteHandler(users)}>Delete</button>) }
         },
     ]
 
-    
-    handleDatasource = (users)=>{
-        let totalCuratedUsers = users.filter((val)=> val.name.toLowerCase().includes(this.state.searchValue));
+
+    handleDatasource = (users) => {
+        let totalCuratedUsers = users.filter((val) => val.name.toLowerCase().includes(this.state.searchValue));
         console.log("TCU", totalCuratedUsers);
-        if(totalCuratedUsers.length !== 0){
+        if (totalCuratedUsers.length !== 0) {
             console.log(users)
             // return this.setState({users: totalCuratedUsers})
-            
+
         }
-        else if(this.state.searchValue === "" || totalCuratedUsers.length === 0){
+        else if (this.state.searchValue === "" || totalCuratedUsers.length === 0) {
             console.log("Not Found");
             fetch('http://localhost:3005/users').then(res => {
                 // console.log(res);
@@ -124,22 +127,22 @@ export class Users extends Component {
                     isLoaded: true,
                     error
                 });
-            }) 
+            })
         }
     }
-    
 
-    searchHandler = (e)=>{
-        let totalCuratedUsers = this.state.users.filter((val)=> val.name.toLowerCase().includes(e.target.value.trim().toLowerCase()));
+
+    searchHandler = (e) => {
+        let totalCuratedUsers = this.state.users.filter((val) => val.name.toLowerCase().includes(e.target.value.trim().toLowerCase()));
         console.log("TCU", totalCuratedUsers);
-        if(totalCuratedUsers.length !== 0){
+        if (totalCuratedUsers.length !== 0) {
             console.log(this.state.users)
-            return this.setState({users: totalCuratedUsers})
+            return this.setState({ users: totalCuratedUsers })
             // this.setState({dikhau: false});
             // return (<Table columns={this.columns} pagination={{pageSize: '5', showSizeChanger: true}} dataSource={totalCuratedUsers}/>)
         }
-        else if(this.state.users === totalCuratedUsers || totalCuratedUsers.length === 0){
-            
+        else if (this.state.users === totalCuratedUsers || totalCuratedUsers.length === 0) {
+
             console.log("Not Found");
             fetch('http://localhost:3005/users').then(res => {
                 // console.log(res);
@@ -153,7 +156,7 @@ export class Users extends Component {
                     isLoaded: true,
                     error
                 });
-            }) 
+            })
         }
     }
     // componentDidUpdate() {
@@ -215,13 +218,13 @@ export class Users extends Component {
     addDataToApi = (e) => {
         e.preventDefault();
         console.log("Updated!")
-        if(this.state.name && this.state.email && this.state.username && this.state.address.street && this.state.address.suite && this.state.address.city && this.state.address.zipcode && this.state.address.geo.lat && this.state.address.geo.long && this.state.company.companyname && this.state.company.catchphrase && this.state.company.bs && this.state.website && this.state.phone ){
-        axios.post('http://localhost:3005/users', { name: this.state.name, email: this.state.email, username: this.state.username, address: { street: this.state.address.street, suite: this.state.address.suite, city: this.state.address.city, zipcode: this.state.address.zipcode, geo: { lat: this.state.address.geo.lat, long: this.state.address.geo.long } }, phone: this.state.phone, website: this.state.website, company: { companyname: this.state.company.companyname, catchphrase: this.state.company.catchphrase, bs: this.state.company.bs } }).then(() => {
-            this.getdata();
-        });
-        this.setState({ name: "", email: "", show: false, showAddButton: true })
-    }
-        else{
+        if (this.state.name && this.state.email && this.state.username && this.state.address.street && this.state.address.suite && this.state.address.city && this.state.address.zipcode && this.state.address.geo.lat && this.state.address.geo.long && this.state.company.companyname && this.state.company.catchphrase && this.state.company.bs && this.state.website && this.state.phone) {
+            axios.post('http://localhost:3005/users', { name: this.state.name, email: this.state.email, username: this.state.username, address: { street: this.state.address.street, suite: this.state.address.suite, city: this.state.address.city, zipcode: this.state.address.zipcode, geo: { lat: this.state.address.geo.lat, long: this.state.address.geo.long } }, phone: this.state.phone, website: this.state.website, company: { companyname: this.state.company.companyname, catchphrase: this.state.company.catchphrase, bs: this.state.company.bs } }).then(() => {
+                this.getdata();
+            });
+            this.setState({ name: "", email: "", show: false, showAddButton: true })
+        }
+        else {
             alert("Galat Bhai")
         }
     }
@@ -263,23 +266,23 @@ export class Users extends Component {
                 <div>
                     <h1>Users</h1>
                     {this.state.show ? <form>
-                        Name: <input type="text" onChange={(e) => this.setState({ name: e.target.value })} value={this.state.name} /> 
+                        Name: <input type="text" onChange={(e) => this.setState({ name: e.target.value })} value={this.state.name} />
 
 
-                        Username: <input type="text" onChange={(e) => this.setState({ username: e.target.value })} value={this.state.username} /> <br/>
+                        Username: <input type="text" onChange={(e) => this.setState({ username: e.target.value })} value={this.state.username} /> <br />
 
 
-                        Email: <input type="text" onChange={(e) => this.setState({ email: e.target.value })} value={this.state.email} /> 
+                        Email: <input type="text" onChange={(e) => this.setState({ email: e.target.value })} value={this.state.email} />
 
 
-                        Address: 
+                        Address:
 
 
                         Street: <input type="text" onChange={(e) => {
                             var address = { ...this.state.address }
                             address.street = e.target.value;
                             this.setState({ address })
-                        }} value={this.state.address.street} /> <br/>
+                        }} value={this.state.address.street} /> <br />
 
 
 
@@ -294,14 +297,14 @@ export class Users extends Component {
                             var address = { ...this.state.address }
                             address.city = e.target.value;
                             this.setState({ address })
-                        }} value={this.state.address.city} /> <br/>
+                        }} value={this.state.address.city} /> <br />
 
 
                         Zipcode: <input type="text" onChange={(e) => {
                             var address = { ...this.state.address }
                             address.zipcode = e.target.value;
                             this.setState({ address })
-                        }} value={this.state.address.zipcode} /> <br/>
+                        }} value={this.state.address.zipcode} /> <br />
 
                         GEO: <br />
 
@@ -316,11 +319,11 @@ export class Users extends Component {
                             address.geo.long = e.target.value;
 
                             this.setState({ address })
-                        }} value={this.state.address.geo.long} /> <br/>
+                        }} value={this.state.address.geo.long} /> <br />
 
-                        Phone: <input type="text" onChange={(e) => this.setState({ phone: e.target.value })} value={this.state.phone} /> 
+                        Phone: <input type="text" onChange={(e) => this.setState({ phone: e.target.value })} value={this.state.phone} />
 
-                        website: <input type="text" onChange={(e) => this.setState({ website: e.target.value })} value={this.state.website} /> <br/>
+                        website: <input type="text" onChange={(e) => this.setState({ website: e.target.value })} value={this.state.website} /> <br />
 
 
                         Company: <br />
@@ -344,7 +347,7 @@ export class Users extends Component {
                             var company = { ...this.state.company }
                             company.bs = e.target.value;
                             this.setState({ company })
-                        }} value={this.state.company.bs} /> <br/>
+                        }} value={this.state.company.bs} /> <br />
 
 
                         <button type="submit" onClick={this.addDataToApi}>Add Data</button>
@@ -374,10 +377,10 @@ export class Users extends Component {
                             <button type="submit">Update Done</button>
                             <button type="button" onClick={() => this.setState({ editShow: false })}>Cancel</button>
                         </form> : null}
-                        <Input.Search placeholder="Enter What You Want To Search Here" onChange={(e)=>this.searchHandler(e)} enterbutton />
-                        <Table columns={this.columns} pagination={{pageSize: '5', showSizeChanger: true}} dataSource={users}/>
-                        </div>
-                        
+                    <Input.Search placeholder="Enter What You Want To Search Here" onChange={(e) => this.searchHandler(e)} enterbutton />
+                    <Table columns={this.columns} pagination={{ pageSize: '5', showSizeChanger: true }} dataSource={users} />
+                </div>
+
             )
         }
     }

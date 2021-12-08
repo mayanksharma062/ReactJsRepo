@@ -21,6 +21,9 @@ export class Navbar extends Component {
                                     <li className="nav-item">
                                         <Link className="nav-link" target="_blank" to="/posts">Posts</Link>
                                     </li>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/counter">Redux Counter</Link>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
